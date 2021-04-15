@@ -72,9 +72,9 @@
             </div>
             <div class="card-body">
                 <div class="list-group">
-                    <li  class="list-group-item"><a href="">Günlük Hayat</a><span class="badge bg-success float-right">12</span></li>
-                    <li  class="list-group-item"><a href="">Teknolıji</a><span class="badge bg-primary float-right">12</span></li>
-                    <li  class="list-group-item"><a href="">Eğitim</a><span class="badge bg-danger float-right">12</span></li>
+                    @foreach($categories as $category)
+                        <li  class="list-group-item"><a href="">{{$category->name}}</a><span class="badge bg-success float-right">{{$category->count()}}</span></li>
+                    @endforeach
                 </div>
             </div>
         </div>
