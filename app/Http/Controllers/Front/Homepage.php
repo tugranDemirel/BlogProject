@@ -41,4 +41,16 @@ class Homepage extends Controller
         return view('front.single', $data);
     }
 
+    public function category($slug)
+    {
+        $data['categories'] = Category::inRandomOrder()->get();
+        $category = Category::where('slug',$slug)->first() ?? abort(404, 'Böyle bir kategori bulunamadı');
+        $data['category'] = $category;
+        // kategoriye ait bloglari getirme
+        $data['articles'] = Article::where('category_id', $category->id)->orderBy('created_at', 'DESC')->get();
+
+
+        return view('front.category', $data);
+    }
+
 }
