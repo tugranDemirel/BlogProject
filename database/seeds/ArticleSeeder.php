@@ -14,17 +14,18 @@ class ArticleSeeder extends Seeder
      */
     public function run()
     {
-        //
-        for ($i = 0; $i < 4; $i++)
+        //            Faker kutuphanesi olusturulması
+        $faker = Faker::create();
+        for ($i = 0; $i < 21; $i++)
         {
-//            Faker kutuphanesi olusturulması
-            $faker = Faker::create();
+
+            $title = $faker->sentence(6);
             DB::table('articles')->insert([
                 'category_id'=>rand(1,7),
-                'title'=>$faker->title,
+                'title'=>$title,
                 'image'=>$faker->imageUrl($width = 800, $height = 400, 'cats', true, 'Faker'),
-                'content'=>$faker->text,
-                'slug'=>str_slug($faker->title),
+                'content'=>$faker->paragraph(6),
+                'slug'=>str_slug($title),
                 'created_at'=>now(),
                 'updated_at'=>now()
 
