@@ -36,5 +36,6 @@
             @endif
         </div>
 @include('front.widgets.categoryWidget')
+    {{$articles->links()}}
 @endsection
 

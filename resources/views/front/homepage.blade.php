@@ -28,7 +28,8 @@
                 @endif
             @endforeach
             <!-- Pager -->
-
+{{--Pagination--}}
+            {{$articles->links()}}
         </div>
 @include('front.widgets.categoryWidget')
 @endsection

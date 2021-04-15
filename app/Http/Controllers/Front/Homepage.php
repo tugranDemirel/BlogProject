@@ -17,7 +17,7 @@ class Homepage extends Controller
         $data['categories'] = Category::inRandomOrder()->get();
 
 //        Blog yazilarini getirme
-        $data['articles'] = Article::orderBy('created_at', 'DESC')->get();
+        $data['articles'] = Article::orderBy('created_at', 'DESC')->paginate(10);
 
 //        ilgili sayfaya db den cekmis odugumuz verileri gonderme islemi
         return view('front.homepage', $data);
@@ -47,7 +47,7 @@ class Homepage extends Controller
         $category = Category::where('slug',$slug)->first() ?? abort(404, 'Böyle bir kategori bulunamadı');
         $data['category'] = $category;
         // kategoriye ait bloglari getirme
-        $data['articles'] = Article::where('category_id', $category->id)->orderBy('created_at', 'DESC')->get();
+        $data['articles'] = Article::where('category_id', $category->id)->orderBy('created_at', 'DESC')->paginate(10);
 
 
         return view('front.category', $data);
