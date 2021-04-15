@@ -8,7 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Article;
 use App\Models\Page;
+use App\Models\Contact;
 
+use Validator;
 class Homepage extends Controller
 {
     public function __construct()
@@ -72,4 +74,37 @@ class Homepage extends Controller
 
         return view('front.page', $data);
     }
+
+    public function contact()
+    {
+        return view('front.contact');
+    }
+
+    public function contactpost(Request $request)
+    {
+        $rules = [
+            'name'=>'required|min:5',
+            'email'=>'required|email',
+            'topic'=>'required',
+            'message'=>'required|min:10'
+        ];
+        $validator = Validator::make($request->post(),$rules);
+        if($validator->fails())
+        {
+            return redirect()->route('contact')->withErrors($validator)->withInput();
+        }
+
+        $contact = new Contact;
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->topic = $request->topic;
+        $contact->message = $request->message;
+        $save = $contact->save();
+        if ($save)
+        {
+            return redirect()->route('contact')->with('success', 'Mesajınız başarıyla iletilmiştir.');
+        }
+
+    }
+
 }
