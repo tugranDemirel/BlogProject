@@ -66,10 +66,17 @@
             </div>
         </div>
     <div class="col-md-3">
-        <div class="list-group">
-            <a href="" class="list-group-item">Günlük Hayat <span class="badge bg-success">12</span></a>
-            <a href="" class="list-group-item">Eğitim <span class="badge bg-danger">12</span></a>
-            <a href="" class="list-group-item">Teknolıji <span class="badge bg-primary">12</span></a>
+        <div class="card">
+            <div class="card-header">
+                Kategoriler
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <li  class="list-group-item"><a href="">Günlük Hayat</a><span class="badge bg-success float-right">12</span></li>
+                    <li  class="list-group-item"><a href="">Teknolıji</a><span class="badge bg-primary float-right">12</span></li>
+                    <li  class="list-group-item"><a href="">Eğitim</a><span class="badge bg-danger float-right">12</span></li>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
