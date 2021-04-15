@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('front.homepage');
-});
+// controller klasöründe front klasötü içerisinde homegag controlundeki index methoduna git
+Route::get('/','Front\Homepage@index')->name('homepage');
