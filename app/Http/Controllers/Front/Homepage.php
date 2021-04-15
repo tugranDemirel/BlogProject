@@ -7,20 +7,31 @@ use App\Http\Controllers\Controller;
 // baglantili oldugu model sayfasını dahil etme(model db islemleri icin kullanılır)
 use App\Models\Category;
 use App\Models\Article;
+use App\Models\Page;
 
 class Homepage extends Controller
 {
+    public function __construct()
+    {
+        // kod tekrarindan kacinmak icin birden fazla fonk da kullandigim kodlari burada kullandim
+        view()->share('pages',Page::orderBy('order', 'ASC')->get());
+        view()->share('categories',Category::inRandomOrder()->get());
+        view()->share('articles',Article::orderBy('created_at', 'DESC')->paginate(10));
+    }
+
     //anasyfamizi calistiran controller
     public function index()
     {
-        // random sira halinde kategorileri getirme
-        $data['categories'] = Category::inRandomOrder()->get();
+        /* random sira halinde kategorileri getirme
+        $data['categories'] = Category::inRandomOrder()->get(); */
 
 //        Blog yazilarini getirme
-        $data['articles'] = Article::orderBy('created_at', 'DESC')->paginate(10);
-
+//        $data['articles'] = Article::orderBy('created_at', 'DESC')->paginate(10);
+/*
+        $data['pages'] = Page::orderBy('order', 'ASC')->get();
+*/
 //        ilgili sayfaya db den cekmis odugumuz verileri gonderme islemi
-        return view('front.homepage', $data);
+        return view('front.homepage');
     }
 
 //    blog detay fonk
@@ -37,20 +48,28 @@ class Homepage extends Controller
         $article->increment('hit');
         $data['article'] = $article;
         // categories leri yolla
-        $data['categories'] = Category::inRandomOrder()->get();
+//        $data['categories'] = Category::inRandomOrder()->get();
         return view('front.single', $data);
     }
 
     public function category($slug)
     {
-        $data['categories'] = Category::inRandomOrder()->get();
+//        $data['categories'] = Category::inRandomOrder()->get();
         $category = Category::where('slug',$slug)->first() ?? abort(404, 'Böyle bir kategori bulunamadı');
         $data['category'] = $category;
+
         // kategoriye ait bloglari getirme
-        $data['articles'] = Article::where('category_id', $category->id)->orderBy('created_at', 'DESC')->paginate(10);
+//        $data['articles'] = Article::where('category_id', $category->id)->orderBy('created_at', 'DESC')->paginate(10);
 
 
         return view('front.category', $data);
     }
 
+    public function page($slug)
+    {
+        $page = Page::where('slug', $slug)->first() ?? abort(403, 'Böyle bir sayfa bulunamadı');
+        $data['page'] = $page;
+
+        return view('front.page', $data);
+    }
 }

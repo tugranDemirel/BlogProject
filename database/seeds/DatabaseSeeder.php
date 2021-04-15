@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         // db ye ekleme işlemlerini yapmak iin seedleri burada cağırıyoruz
         $this->call(CategorySeeder::class);
         $this->call(ArticleSeeder::class);
+        $this->call(PagesSeeder::class);
     }
 }
