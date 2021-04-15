@@ -1,7 +1,12 @@
 @extends('front.layout.master')
+
+{{-- sayfa title belirleme. (sayfaya özel) --}}
+{{-- Header içerisinde bulunan title kısmında bulunan yield içerisindeki title ye karşılık gelecek olan kısım --}}
+@section('title','Anasayfa')
+
 {{-- layout icerisinde bulunan master icindeki yield e aasgıdaki alani gonderdim --}}
 @section('content')
-        <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="col-md-9 mx-auto">
             <div class="post-preview">
                 <a href="post.html">
                     <h2 class="post-title">
@@ -60,5 +65,12 @@
                 <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
             </div>
         </div>
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href="" class="list-group-item">Günlük Hayat <span class="badge bg-success">12</span></a>
+            <a href="" class="list-group-item">Eğitim <span class="badge bg-danger">12</span></a>
+            <a href="" class="list-group-item">Teknolıji <span class="badge bg-primary">12</span></a>
+        </div>
+    </div>
 @endsection
 
