@@ -13,3 +13,4 @@
 
 // controller klasöründe front klasötü içerisinde homegag controlundeki index methoduna git
 Route::get('/','Front\Homepage@index')->name('homepage');
+Route::get('/{category}/{slug}', 'Front\Homepage@single')->name('single');

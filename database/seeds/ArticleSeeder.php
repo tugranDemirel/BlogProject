@@ -26,7 +26,7 @@ class ArticleSeeder extends Seeder
                 'image'=>$faker->imageUrl($width = 800, $height = 400, 'cats', true, 'Faker'),
                 'content'=>$faker->paragraph(6),
                 'slug'=>str_slug($title),
-                'created_at'=>now(),
+                'created_at'=>$faker->dateTime('now'),
                 'updated_at'=>now()
 
             ]);
