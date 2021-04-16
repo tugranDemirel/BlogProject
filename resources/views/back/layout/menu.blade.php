@@ -8,7 +8,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('admin.dashboard')}}">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
@@ -44,7 +44,8 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Makele İşlemleri:</h6>
                     <a class="collapse-item  @if(Request::segment(2) == "makaleler" and !Request::segment(3)) active @endif" href="{{route('admin.makaleler.index')}}">Tüm Makaleler</a>
-                    <a class="collapse-item  @if(Request::segment(2) == "makaleler" and Request::segment(3)) active @endif" href="{{route('admin.makaleler.create')}}">Makale Oluştur</a>
+                    <a class="collapse-item  @if(Request::segment(2) == "makaleler" and Request::segment(3) == "create") active @endif" href="{{route('admin.makaleler.create')}}">Makale Oluştur</a>
+                    <a class="collapse-item  @if(Request::segment(2) == "makeleler" and Request::segment(3) == "silinenler") active @endif" href="{{route('admin.trashed.article')}}">Silinen Makaleler</a>
                 </div>
             </div>
         </li>

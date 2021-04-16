@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 // yazıların baglı oldugu modeli cagırdık. onun uzerinden veri transferi yapacğım
 use App\Models\Article;
 use App\Models\Category;
+use Illuminate\Support\Facades\File;
 
 class ArticleController extends Controller
 {
@@ -147,7 +148,11 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         //
-        return 'Tüm makalelenin silineceği delete sayfası';
+        $article = Article::findOrFail($id);
+        $article->delete();
+        toastr()->success('Makale silinene makalelere taşındı.', 'Başarılı');
+
+        return redirect()->route('admin.makaleler.index');
     }
 
     // status ddegistirme
@@ -157,4 +162,36 @@ class ArticleController extends Controller
         $article->status = $request->statu == 'true' ? 1 : 0;
         $article->save();
     }
+
+    public function trashed()
+    {
+        // sadece silinenler gelmesi icin
+        $articles = Article::onlyTrashed()->orderBy('deleted_at', 'ASC')->get();
+        return view('back.articles.trashed', compact('articles'));
+    }
+
+    public function recover($id)
+    {
+        // sadece silinenler gelmesi icin kullandigimiz method
+        $article = Article::onlyTrashed()->find($id)->restore();
+        toastr()->success('Makale başarıyla geri getirildi.', 'Başarılı');
+
+        return redirect()->route('admin.makaleler.index');
+     /*   $article = Article::onlyTrashed()->find($id);
+        $article->deleted_at = null; */
+
+    }
+
+    public function hardDelete($id)
+    {
+        $article = Article::onlyTrashed()->find($id);
+        if (File::exists($article->image))
+        {
+            File::delete(public_path($article->image));
+        }
+        $article->forceDelete();
+        toastr()->warning('Makale tümden silindi.', 'Başarılı');
+        return redirect()->route('admin.makaleler.index');
+    }
+
 }

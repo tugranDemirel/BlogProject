@@ -34,9 +34,14 @@
                             <input class="switch" article-id="{{$article->id}}" type='checkbox' data-offstyle='danger' data-on='Aktif' data-off='Pasif' @if($article->status == 1) checked @endif data-toggle='toggle' data-onstyle='success'>
                         </td>
                         <td>
-                            <a title="Görüntüle" href="" class="btn btn-success"> <i class="fa fa-eye"></i></a>
+                            <a title="Görüntüle" href="{{route('single', [$article->getCategory->slug, $article->slug])}}" target="_blank" class="btn btn-success"> <i class="fa fa-eye"></i></a>
                             <a title="Düzenle" href="{{route('admin.makaleler.edit', $article->id)}}" class="btn btn-primary"> <i class="fa fa-pen"></i></a>
-                            <a title="Sil" href="" class="btn btn-danger"> <i class="fa fa-times"></i></a>
+                            <form action="{{route('admin.makaleler.destroy', $article->id)}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" title="Sil"class="btn btn-danger"> <i class="fa fa-times"></i></button>
+                            </form>
+
                         </td>
                     </tr>
                     @endforeach

@@ -31,8 +31,11 @@ Route::prefix('admin')->name('admin.')->middleware('isLogin')->group(function ()
 Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function (){
 
     Route::get('panel', 'Back\dashboard@index')->name('dashboard');
+    Route::get('makaleler/silinenler','Back\ArticleController@trashed')->name('trashed.article');
     Route::resource('makaleler','Back\ArticleController');
-    Route::get('/switch','Back\ArticleController@switch')->name('switch');
+    Route::get('switch','Back\ArticleController@switch')->name('switch');
+    Route::get('/recoverarticle/{id}','Back\ArticleController@recover')->name('recover.article');
+    Route::get('/harddeletearticle/{id}','Back\ArticleController@hardDelete')->name('hard.delete.article');
     Route::get('cikis', 'Back\AuthController@logout')->name('logout');
 });
 
