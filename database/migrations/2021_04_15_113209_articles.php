@@ -20,6 +20,7 @@ class Articles extends Migration
             $table->string('image');
             $table->longText('content');
             $table->bigInteger('hit')->default(0);
+            $table->bigInteger('status')->default(0)->comment('0: Pasit 1:Aktif. Aktif olduktan sonra anasyafaya duser');
             $table->string('slug');
             $table->timestamps();
 

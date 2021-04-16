@@ -61,6 +61,15 @@
 <script src="{{asset('back/')}}/js/demo/chart-area-demo.js"></script>
 <script src="{{asset('back/')}}/js/demo/chart-pie-demo.js"></script>
 
+<!-- Page level plugins -->
+<script src="{{asset('back/')}}/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="{{asset('back/')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="{{asset('back/')}}/js/demo/datatables-demo.js"></script>
+@yield('js')
+@toastr_js
+@toastr_render
 </body>
 
 </html>

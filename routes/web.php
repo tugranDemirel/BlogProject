@@ -20,22 +20,25 @@ Route::post('admin/giris', 'Back\AuthController@loginpost')->name('admin.login.p
 Route::get('admin/cikis', 'Back\AuthController@logout')->name('admin.logout'); */
 
 // route group yapısı ile her seferinde admin yazmaktan kurtulduk
-
+// kullanici giris yapmamissa
 Route::prefix('admin')->name('admin.')->middleware('isLogin')->group(function (){
     Route::get('giris', 'Back\AuthController@login')->name('login');
     Route::post('giris', 'Back\AuthController@loginpost')->name('login.post');
 });
 
 // route group yapısı ile her seferinde admin yazmaktan kurtulduk
+// Kullanıcı giris yapmıssa
 Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function (){
 
     Route::get('panel', 'Back\dashboard@index')->name('dashboard');
+    Route::resource('makaleler','Back\ArticleController');
+    Route::get('/switch','Back\ArticleController@switch')->name('switch');
     Route::get('cikis', 'Back\AuthController@logout')->name('logout');
 });
 
 
-
-/* FRONT ROUTE*/
+/********************************************************************************/
+                                /* FRONT ROUTE*/
 // controller klasöründe front klasötü içerisinde homegag controlundeki index methoduna git
 Route::get('/','Front\Homepage@index')->name('homepage');
 Route::get('/sayfa', 'Front\Homepage@index');

@@ -19,10 +19,12 @@ class AuthController extends Controller
     {
         if (Auth::attempt(['email'=>$request->email, 'password'=>$request->password]))
         {
+            toastr()->success('Tekrardan hoşgeldiniz '.Auth::user()->name);
             return redirect()->route('admin.dashboard');
         }
         else
         {
+            toastr()->info('Tekrardan hoşgelemediniz. ');
             return redirect()->route('admin.login')->withErrors('Email adresi veya şifre hatalı.');
         }
     }
