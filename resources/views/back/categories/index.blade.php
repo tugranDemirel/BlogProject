@@ -48,9 +48,8 @@
                                         <input class="switch" category-id="{{$category->id}}" type='checkbox' data-offstyle='danger' data-on='Aktif' data-off='Pasif' @if($category->status == 1) checked @endif data-toggle='toggle' data-onstyle='success'>
                                     </td>
                                     <td>
-                                        <a title="Görüntüle" href="{{route('single', [$category->slug, $category->slug])}}" target="_blank" class="btn btn-success"> <i class="fa fa-eye"></i></a>
-                                        <a title="Düzenle" href="{{route('admin.makaleler.edit', $category->id)}}" class="btn btn-primary"> <i class="fa fa-pen"></i></a>
-                                        <a title="Sil" href="{{route('admin.makaleler.edit', $category->id)}}" class="btn btn-danger"> <i class="fa fa-times"></i></a>
+                                        <a title="Kategori Düzenle" category-id="{{$category->id}}" class="btn btn-primary edit-click"> <i class="fa fa-edit"></i></a>
+                                        <a title="Sil" id="delete-click" class="btn btn-danger"> <i class="fa fa-times"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -61,6 +60,39 @@
             </div>
         </div>
     </div>
+    <div id="editModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Kategoriyi Düzenle</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form action="{{route('admin.category.update')}}" method="post">
+                    @csrf
+                    <div class="modal-body">
+
+                            <div class="form-group">
+                                <label for="">Kategori Adı</label>
+                                <input type="text" name="category" id="category" class="form-control">
+                                <input type="hidden" name="id" id="category_id">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Kategori Slug Adı Düzenle</label>
+                                <input type="text" name="slug" id="slug" class="form-control">
+                            </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                        <button type="submit" class="btn btn-success">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
 @endsection
 
 @section('css')
@@ -69,7 +101,32 @@
 @section('js')
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script>
+
         $(function() {
+            // modal icin
+            $('.edit-click').click(function () {
+                // category-id adindaki arttribute diye olusuturdugumuz kendi attributemiz ile kartegori id ini yakaladık.
+                id =  $(this)[0].getAttribute('category-id');
+                $.ajax({
+                    type: 'GET',
+                    url:'{{route('admin.category.getData')}}',
+                    data:{id:id},
+                    success:function (data) {
+                        // category id ine sahip inputun içindeki veriyi db den gelen veri ile yazdirdik
+                        $('#category').val(data.name);
+
+                        // slug id ine sahip inputun içindeki veriyi db den gelen veri ile yazdirdik
+                        $('#slug').val(data.slug);
+
+                        /*  category_id id ine sahip inputun içindeki veriyi db den gelen veri ile yazdirdik
+                            update için gerekli olan id */
+                        $('#category_id').val(data.id);
+                        $('#editModal').modal();
+                    }
+                });
+            });
+
+            //aktif pasif
             $('.switch').change(function() {
                 id =  $(this)[0].getAttribute('category-id');
                 statu = $(this).prop('checked')
