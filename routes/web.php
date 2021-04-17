@@ -31,11 +31,21 @@ Route::prefix('admin')->name('admin.')->middleware('isLogin')->group(function ()
 Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function (){
 
     Route::get('panel', 'Back\dashboard@index')->name('dashboard');
+
+    /* Makale Route start*/
     Route::get('makaleler/silinenler','Back\ArticleController@trashed')->name('trashed.article');
     Route::resource('makaleler','Back\ArticleController');
     Route::get('switch','Back\ArticleController@switch')->name('switch');
     Route::get('/recoverarticle/{id}','Back\ArticleController@recover')->name('recover.article');
     Route::get('/harddeletearticle/{id}','Back\ArticleController@hardDelete')->name('hard.delete.article');
+    /* Makale Route end*/
+
+    /* Category Route start*/
+    Route::get('/kategoriler' , 'Back\CategoryController@index')->name('category.index');
+    Route::get('/kategoriler/status' , 'Back\CategoryController@switch')->name('category.switch');
+    Route::post('/kategoriler/create' , 'Back\CategoryController@create')->name('category.create');
+
+
     Route::get('cikis', 'Back\AuthController@logout')->name('logout');
 });
 
