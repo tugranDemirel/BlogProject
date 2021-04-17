@@ -44,7 +44,12 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::get('/kategoriler' , 'Back\CategoryController@index')->name('category.index');
     Route::get('/kategoriler/status' , 'Back\CategoryController@switch')->name('category.switch');
     Route::post('/kategoriler/create' , 'Back\CategoryController@create')->name('category.create');
+
+    /* Category delete, edit start */
     Route::get('/kategoriler/getData' , 'Back\CategoryController@getData')->name('category.getData');
+    Route::post('/kategoriler/getDelete' , 'Back\CategoryController@getDelete')->name('category.getDelete');
+    /* Category delete, edit end */
+
     Route::post('/kategoriler/update' , 'Back\CategoryController@update')->name('category.update');
 
     Route::get('cikis', 'Back\AuthController@logout')->name('logout');

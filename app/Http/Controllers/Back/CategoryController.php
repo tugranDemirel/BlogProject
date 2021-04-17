@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Back;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Article;
 
 class CategoryController extends Controller
 {
@@ -43,6 +44,31 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($request->id);
         return response()->json($category);
+    }
+
+    public function getDelete(Request $request)
+    {
+        $category = Category::findOrFail($request->id);
+        $count = $category->articleCount();
+        $defaultCategory = Category::find(1);
+        if($request->id == 1)
+        {
+            toastr()->info('Bu kategori sabit kategoridir. Silme işlemi gerçekleştirilemez.');
+        }
+        if ($count > 0)
+        {
+            Article::where('category_id', $category->id)->update([
+                'category_id'=>1
+            ]);
+            toastr()->success('Silme işlemi başarıyla gerçekleştirildi.', 'Bu kategoriye ait '.$count.' makale '.$defaultCategory->name.' kategorisine taşındı');
+
+        }
+        else
+        {
+            toastr()->success('Silme işlemi başarıyla gerçekleştirildi.');
+        }
+        $category->delete();
+        return redirect()->back();
     }
 
     public function update(Request $request)

@@ -49,7 +49,7 @@
                                     </td>
                                     <td>
                                         <a title="Kategori Düzenle" category-id="{{$category->id}}" class="btn btn-primary edit-click"> <i class="fa fa-edit"></i></a>
-                                        <a title="Sil" id="delete-click" class="btn btn-danger"> <i class="fa fa-times"></i></a>
+                                        <a title="Sil" category-id="{{$category->id}}" category-count="{{$category->articleCount()}}" category-name="{{$category->name}}" class="btn btn-danger remove-click"> <i class="fa fa-times"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -93,6 +93,35 @@
 
         </div>
     </div>
+    <div id="deleteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Kategoriyi Sil</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form action="{{route('admin.category.getDelete')}}" method="post">
+                    @csrf
+                    <div id="mBody" class="modal-body">
+                        <div id="articleAlert" class="alert alert-danger">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                        <form action="{{route('admin.category.getDelete')}}" method="post">
+                            @csrf
+                            <input type="hidden" name="id" id="delete-id">
+                            <button id="deleteButton" type="submit" class="btn btn-success">Sil</button>
+                        </form>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
 @endsection
 
 @section('css')
@@ -103,10 +132,39 @@
     <script>
 
         $(function() {
-            // modal icin
+            $('.remove-click').click(function () {
+                // category-id adindaki arttribute diye olusuturdugumuz kendi attributemiz ile kartegori id ini yakaladık.
+                id =  $(this)[0].getAttribute('category-id');
+                count =  $(this)[0].getAttribute('category-count');
+                name =  $(this)[0].getAttribute('category-name');
+
+                if (id==1){
+                    $('#articleAlert').html('<b>'+name+'</b> kategorisi sabit kategoridir. Silinen kategorilere ait makaleler bu kategori adı altında görünecektir.');
+                    $('#deleteButton').hide();
+                    $('#deleteModal').modal();
+                    // Alt kodlar calismamsi icin return dedik
+                    return;
+                }
+
+                $('#deleteButton').show();
+                $('#delete-id').val(id);
+                $('#articleAlert').html('');
+                $('#mBody').hide();
+                if(count>0) {
+                    /* acilacak olan modal da ki bos kisma html ile bilgi yazdirdik */
+                    $('#articleAlert').html('Bu katgoriye ait <b>'+count+'</b> adet makale bulundu. Silmek istediğinize emin misiniz?');
+                    $('#mBody').show();
+                }
+/* Modal açma islemi*/
+                $('#deleteModal').modal();
+            });
+
+
+            // kategoriy duzenlemek icin acilacak olan modal
             $('.edit-click').click(function () {
                 // category-id adindaki arttribute diye olusuturdugumuz kendi attributemiz ile kartegori id ini yakaladık.
                 id =  $(this)[0].getAttribute('category-id');
+
                 $.ajax({
                     type: 'GET',
                     url:'{{route('admin.category.getData')}}',
