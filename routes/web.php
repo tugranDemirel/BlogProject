@@ -51,6 +51,12 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     /* Category delete, edit end */
 
     Route::post('/kategoriler/update' , 'Back\CategoryController@update')->name('category.update');
+    /* Category Route end*/
+
+    /* Page Route start*/
+    Route::get('/sayfalar' , 'Back\PageController@index')->name('page.index');
+    Route::get('sayfa/switch','Back\PageController@switch')->name('page.switch');
+    /* Page Route end*/
 
     Route::get('cikis', 'Back\AuthController@logout')->name('logout');
 });

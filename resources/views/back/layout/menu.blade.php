@@ -58,7 +58,21 @@
             </a>
 
         </li>
-
+        <li class="nav-item ">
+            <a class="nav-link @if(Request::segment(2)=="sayfalar") in @else collapsed @endif" href="#" data-toggle="collapse" data-target="#headingPage"
+               aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-file"></i>
+                <span>Sayfalar</span>
+            </a>
+            <div id="headingPage" class="collapse @if(Request::segment(2) == "sayfalar") show @endif" aria-labelledby="headingPage" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Sayfa İşlemleri:</h6>
+                    <a class="collapse-item  @if(Request::segment(2) == "sayfalar" and !Request::segment(3)) active @endif" href="{{route('admin.page.index')}}">Tüm Sayfalar</a>
+                    <a class="collapse-item  @if(Request::segment(2) == "sayfalar" and Request::segment(3) == "create") active @endif" href="{{route('admin.makaleler.create')}}">Sayfa Oluştur</a>
+{{--                    <a class="collapse-item  @if(Request::segment(2) == "sayfalar" and Request::segment(3) == "silinenler") active @endif" href="{{route('admin.trashed.page')}}">Silinen Makaleler</a>--}}
+                </div>
+            </div>
+        </li>
         <!-- Divider -->
         <hr class="sidebar-divider">
 
