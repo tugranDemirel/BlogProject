@@ -10,16 +10,18 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
+                        <th width="50px;">Sıralama</th>
                         <th>Görsel</th>
                         <th>Sayfa Başlığı</th>
                         <th>Durum</th>
-                        <th>İşlemler</th>
+                        <th width="auto">İşlemler</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="orders">
 
                     @foreach($pages as $page)
-                    <tr>
+                    <tr id="page_{{$page->id}}">
+                        <td width="50px;"><i class="fa fa-arrows-alt-v handle" style="cursor:move; font-size: 20px;"></i></td>
                         <td>
                             <img src="{{asset('uploads/'.$page->image)}}" width="75" alt="{{$page->baslik}}">
                         </td>
@@ -27,7 +29,7 @@
                         <td width="15">
                             <input class="switch" page-id="{{$page->id}}" type='checkbox' data-offstyle='danger' data-on='Aktif' data-off='Pasif' @if($page->status == 1) checked @endif data-toggle='toggle' data-onstyle='success'>
                         </td>
-                        <td>
+                        <td width="auto">
                             <a title="Görüntüle" href="{{route('page', $page->slug)}}" target="_blank" class="btn btn-success"> <i class="fa fa-eye"></i></a>
                             <a title="Düzenle" href="{{route('admin.page.edit', $page->id)}}" class="btn btn-primary"> <i class="fa fa-pen"></i></a>
                             <a title="Sil" href="{{route('admin.page.delete', $page->id)}}" class="btn btn-danger"> <i class="fa fa-times"></i></a>
@@ -45,6 +47,20 @@
 @endsection
 @section('js')
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.13.0/Sortable.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+    <script>
+    $('#orders').sortable({
+        handle:'.handle',
+        update:function (){
+            var s = $('#orders').sortable('serialize');
+            $.get("{{route('admin.page.orders')}}?"+s, function (data, status) {
+
+            });
+        }
+    });
+    </script>
     <script>
         $(function() {
             $('.switch').change(function() {

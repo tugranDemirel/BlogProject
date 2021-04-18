@@ -10,6 +10,9 @@ use App\Models\Article;
 use App\Models\Page;
 use App\Models\Contact;
 
+// iletisim kismindan gelen maillerin mail kutumuza dusmesini saglayacagimiz mail kutuphaesi
+use Mail;
+
 use Validator;
 class Homepage extends Controller
 {
@@ -80,6 +83,7 @@ class Homepage extends Controller
         return view('front.contact');
     }
 
+
     public function contactpost(Request $request)
     {
         $rules = [
@@ -94,16 +98,22 @@ class Homepage extends Controller
             return redirect()->route('contact')->withErrors($validator)->withInput();
         }
 
-        $contact = new Contact;
+        Mail::send([], [], function ($message) use($request){
+            $message->from('iletisim@blogsitesi.com', 'Blog Sitesi');
+            $message->to('demireltugran66@gmail.com');
+            $message->setBody('Mesajı Gönderen:'.$request->name.' <br> Mesajı Gönderen Mail: '.$request->email.'<br> Mesaj Konusu: '.$request->topic.'<br> Mesaj: '.$request->message.'<br><br> Mesaj Gönderilme Tarihi: '.now().' ','text/html');
+            $message->subject($request->name.' iletişimden gönderildi.');
+        });
+
+       /* $contact = new Contact;
         $contact->name = $request->name;
         $contact->email = $request->email;
         $contact->topic = $request->topic;
         $contact->message = $request->message;
-        $save = $contact->save();
-        if ($save)
-        {
-            return redirect()->route('contact')->with('success', 'Mesajınız başarıyla iletilmiştir.');
-        }
+        $save = $contact->save(); */
+
+        return redirect()->route('contact')->with('success', 'Mesajınız başarıyla iletilmiştir.');
+
 
     }
 

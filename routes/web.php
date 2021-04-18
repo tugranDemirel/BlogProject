@@ -60,6 +60,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::get('/sayfalar/duzenle/{id}' , 'Back\PageController@edit')->name('page.edit');
     Route::post('/sayfalar/duzenle/{id}' , 'Back\PageController@update')->name('page.edit.post');
     Route::get('/sayfalar/sil/{id}', 'Back\PageController@hardDelete')->name('page.delete');
+    Route::get('/sayfalar/siralama', 'Back\PageController@orders')->name('page.orders');
     Route::get('sayfa/switch','Back\PageController@switch')->name('page.switch');
     /* Page Route end*/
 
