@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Routing\Route;
 use Illuminate\Support\ServiceProvider;
 
+/* Butun sayfalarda gecerli olabilmesi icin burada ilgili tabloyu cagirdik butun viewlere bu vasita ile gonderiyoruz*/
+use App\Models\Config;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -24,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Resource issim degistirme
+        view()->share('config', Config::find(1));
 
     }
 }

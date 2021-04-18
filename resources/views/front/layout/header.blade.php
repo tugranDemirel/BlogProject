@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 {{--    DEfault olarak title belirleme.--}}
-    <title>@yield('title','İlk Blog Sitesi')</title>
+    <title>@yield('title','İlk Blog Sitesi') - {{$config->title}}</title>
 
     <!-- Bootstrap core CSS -->
 {{--    public icerisindeki css js dosyalarını import etme--}}
@@ -29,15 +29,17 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="{{route('homepage')}}">Anasayfa V1</a>
+        <a class="navbar-brand" href="{{route('homepage')}}"> <img src="{{asset('uploads/'.$config->logo)}}" alt="{{$config->title}}"></a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menu
+            Menü
             <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('homepage')}}">Anasayfa</a>
+                    <a class="nav-link" href="{{route('homepage')}}">
+                        Anasayfa
+                    </a>
                 </li>
                 @foreach($pages as $page)
                     <li class="nav-item">

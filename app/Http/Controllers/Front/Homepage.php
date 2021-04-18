@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Article;
 use App\Models\Page;
 use App\Models\Contact;
+use App\Models\Config;
 
 // iletisim kismindan gelen maillerin mail kutumuza dusmesini saglayacagimiz mail kutuphaesi
 use Mail;
@@ -18,10 +19,17 @@ class Homepage extends Controller
 {
     public function __construct()
     {
-        // kod tekrarindan kacinmak icin birden fazla fonk da kullandigim kodlari burada kullandim
-        view()->share('pages',Page::orderBy('order', 'ASC')->get());
-        view()->share('categories',Category::inRandomOrder()->get());
-        view()->share('articles',Article::orderBy('created_at', 'DESC')->paginate(10));
+        if(Config::find(1)->active == 0)
+        {
+           return redirect()->to('site-bakimda')->send();
+        }
+        elseif (Config::find(1)->active == 1)
+        {
+            // kod tekrarindan kacinmak icin birden fazla fonk da kullandigim kodlari burada kullandim
+            view()->share('pages',Page::orderBy('order', 'ASC')->get());
+            view()->share('categories',Category::inRandomOrder()->get());
+            view()->share('articles',Article::orderBy('created_at', 'DESC')->paginate(10));
+        }
     }
 
     //anasyfamizi calistiran controller

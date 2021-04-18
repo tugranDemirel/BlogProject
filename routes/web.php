@@ -12,6 +12,11 @@
 */
 
 
+/********************************************************************************/
+/* FRONT INACTIVE ROUTE */
+Route::get('site-bakimda',function (){
+    return view('front.offline');
+});
 /* BACKEND(ADMIN) ROUTE*/
 /*
 Route::get('admin/panel', 'Back\dashboard@index')->name('admin.dashboard');
@@ -64,6 +69,11 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::get('sayfa/switch','Back\PageController@switch')->name('page.switch');
     /* Page Route end*/
 
+    /* Config(setting) Route start*/
+    Route::get('/ayarlar' , 'Back\ConfigController@index')->name('config.index');
+    Route::post('/ayarlar/update' , 'Back\ConfigController@update')->name('config.update');
+    /* Config(setting) Route end*/
+
     Route::get('cikis', 'Back\AuthController@logout')->name('logout');
 });
 
@@ -78,4 +88,6 @@ Route::post('/iletisim', 'Front\Homepage@contactpost')->name('contact.post');
 Route::get('/kategori/{category}','Front\Homepage@category')->name('category');
 Route::get('/{category}/{slug}', 'Front\Homepage@single')->name('single');
 Route::get('/{sayfa}', 'Front\Homepage@page')->name('page');
+
+
 
