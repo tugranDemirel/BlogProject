@@ -15,6 +15,8 @@ use App\Models\Config;
 use Mail;
 
 use Validator;
+use function foo\func;
+
 class Homepage extends Controller
 {
     public function __construct()
@@ -26,9 +28,9 @@ class Homepage extends Controller
         elseif (Config::find(1)->active == 1)
         {
             // kod tekrarindan kacinmak icin birden fazla fonk da kullandigim kodlari burada kullandim
-            view()->share('pages',Page::orderBy('order', 'ASC')->get());
-            view()->share('categories',Category::inRandomOrder()->get());
-            view()->share('articles',Article::orderBy('created_at', 'DESC')->paginate(10));
+            view()->share('pages',Page::where('status', 1)->orderBy('order', 'ASC')->get());
+            view()->share('categories',Category::where('status', 1)->inRandomOrder()->get());
+//            view()->share('articles',Article::where('status', 1)->orderBy('created_at', 'DESC')->paginate(10));
         }
     }
 
@@ -39,12 +41,14 @@ class Homepage extends Controller
         $data['categories'] = Category::inRandomOrder()->get(); */
 
 //        Blog yazilarini getirme
-//        $data['articles'] = Article::orderBy('created_at', 'DESC')->paginate(10);
+        $data['articles'] = Article::with('getCategory')->where('status', 1)->whereHas('getCategory', function($query){
+            $query->where('status', 1);
+        })->orderBy('created_at', 'DESC')->paginate(10);
 /*
         $data['pages'] = Page::orderBy('order', 'ASC')->get();
 */
 //        ilgili sayfaya db den cekmis odugumuz verileri gonderme islemi
-        return view('front.homepage');
+        return view('front.homepage',$data);
     }
 
 //    blog detay fonk
@@ -68,11 +72,11 @@ class Homepage extends Controller
     public function category($slug)
     {
 //        $data['categories'] = Category::inRandomOrder()->get();
-        $category = Category::where('slug',$slug)->first() ?? abort(404, 'Böyle bir kategori bulunamadı');
+        $category = Category::where('status', 1)->where('slug',$slug)->first() ?? abort(404, 'Böyle bir kategori bulunamadı');
         $data['category'] = $category;
 
         // kategoriye ait bloglari getirme
-//        $data['articles'] = Article::where('category_id', $category->id)->orderBy('created_at', 'DESC')->paginate(10);
+        $data['articles'] = Article::where('status', 1)->where('category_id', $category->id)->orderBy('created_at', 'DESC')->paginate(10);
 
 
         return view('front.category', $data);
@@ -80,7 +84,7 @@ class Homepage extends Controller
 
     public function page($slug)
     {
-        $page = Page::where('slug', $slug)->first() ?? abort(403, 'Böyle bir sayfa bulunamadı');
+        $page = Page::where('status', 1)->where('slug', $slug)->first() ?? abort(403, 'Böyle bir sayfa bulunamadı');
         $data['page'] = $page;
 
         return view('front.page', $data);
