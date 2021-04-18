@@ -32,13 +32,13 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
 
     Route::get('panel', 'Back\dashboard@index')->name('dashboard');
 
-    /* Makale Route start*/
+    /* Article Route start*/
     Route::get('makaleler/silinenler','Back\ArticleController@trashed')->name('trashed.article');
     Route::resource('makaleler','Back\ArticleController');
     Route::get('switch','Back\ArticleController@switch')->name('switch');
     Route::get('/recoverarticle/{id}','Back\ArticleController@recover')->name('recover.article');
     Route::get('/harddeletearticle/{id}','Back\ArticleController@hardDelete')->name('hard.delete.article');
-    /* Makale Route end*/
+    /* Article Route end*/
 
     /* Category Route start*/
     Route::get('/kategoriler' , 'Back\CategoryController@index')->name('category.index');
@@ -55,6 +55,11 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
 
     /* Page Route start*/
     Route::get('/sayfalar' , 'Back\PageController@index')->name('page.index');
+    Route::get('/sayfalar/olustur' , 'Back\PageController@create')->name('page.create');
+    Route::post('/sayfalar/olustur' , 'Back\PageController@post')->name('page.create.post');
+    Route::get('/sayfalar/duzenle/{id}' , 'Back\PageController@edit')->name('page.edit');
+    Route::post('/sayfalar/duzenle/{id}' , 'Back\PageController@update')->name('page.edit.post');
+    Route::get('/sayfalar/sil/{id}', 'Back\PageController@hardDelete')->name('page.delete');
     Route::get('sayfa/switch','Back\PageController@switch')->name('page.switch');
     /* Page Route end*/
 

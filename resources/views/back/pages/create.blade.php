@@ -1,5 +1,5 @@
 @extends('back.layout.master')
-@section('title', 'Makale Oluştur')
+@section('title', 'Sayfa Oluştur')
 @section('content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -13,32 +13,23 @@
                     @endforeach
                 </div>
             @endif
-            <form action="{{route('admin.makaleler.store')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('admin.page.create.post')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
-                    <label for="">Makale Başlığı</label>
+                    <label for="">Sayfa Başlığı</label>
                     <input type="text" name="title" required class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="">Makale Kategori</label>
-                    <select name="category" id="" required class="form-control">
-                        <option value="">Seçim Yapınız</option>
-                        @foreach($categories as $category )
-                            <option value="{{$category->id}}">{{$category->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="">Makale Görsel Seç</label>
+                    <label for="">Sayfa Görsel Seç</label>
                     <input type="file" name="image" required class="form-control">
                     <small>Dosya boyutu en fazla 2MB olmalıdır.</small>
                 </div>
                 <div class="form-group">
-                    <label for="">Makale İçeriği</label>
+                    <label for="">Sayfa İçeriği</label>
                     <textarea name="contentt" id="" cols="30" rows="10" class="form-control summernote"></textarea>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary btn-block">Makaleyi Oluştur</button>
+                    <button class="btn btn-primary btn-block">Sayfayı Oluştur</button>
                 </div>
             </form>
         </div>

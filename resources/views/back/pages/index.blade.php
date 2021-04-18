@@ -29,8 +29,8 @@
                         </td>
                         <td>
                             <a title="Görüntüle" href="{{route('page', $page->slug)}}" target="_blank" class="btn btn-success"> <i class="fa fa-eye"></i></a>
-                            <a title="Düzenle" href="{{route('admin.makaleler.edit', $page->id)}}" class="btn btn-primary"> <i class="fa fa-pen"></i></a>
-                            <a title="Düzenle" href="{{route('admin.makaleler.edit', $page->id)}}" class="btn btn-danger"> <i class="fa fa-times"></i></a>
+                            <a title="Düzenle" href="{{route('admin.page.edit', $page->id)}}" class="btn btn-primary"> <i class="fa fa-pen"></i></a>
+                            <a title="Sil" href="{{route('admin.page.delete', $page->id)}}" class="btn btn-danger"> <i class="fa fa-times"></i></a>
                         </td>
                     </tr>
                     @endforeach
